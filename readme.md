@@ -1,26 +1,26 @@
 # INF 551 Project
 
 
-### 1.Tech
+### 1.Tools
 Backend : *Flask*, *Firebase*
 \
 Frontend : *Bootstrap*, *HTML*, *jQuery*
 
-### 2.RUN
+### 2.Folders
 
-文件里面的venv是虚拟环境， 里面有相关的库之类
+venv: virtual environment with required packages
 \
-apps 里存的是login 文件的form，只是为了当个例子用的， 后面有时间的话也可以把table改了
+apps: login form, etc.
 \
-static里存的是相关的css/js包，为了好看用 :smirk:
+static: css/js libraries
 \
-templates里面存的html模板
+templates: html templates
 
-启动这个项目可以直接在*Pycharm*里面Run，或者
+### 3. To run this project:
 
 ```
-    cd Your Downloaded Path/inf551project
+    cd Your Downloaded Path/inf551-webapp
     flask run
 ```
 
-服务跑在 (http://127.0.0.1:5000/) 5000端口处
+(http://127.0.0.1:5000/)
