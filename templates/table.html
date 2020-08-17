@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>data-table</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../static/tableStyle.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="../static/bootstrap-4.3.1-dist/js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+</head>
+<body>
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div>
+        <div id="chartContainer" style="display:inline-flex; position:relative;height: 150px; width: 30%; top: 30px; left: 40%"></div>
+        <div id="chartContainer-bar" style=" float: left; position:relative;height: 150px; width: 30%; top: 35px;"></div>
+    </div>
+    <form class="form-inline" action="/table" method="post" style="position:relative;top:10px">
+        <div class="input-group" id='search-bar' style="position:relative;left:32.5%;top:0%;width:37.5%;height:15%">
+            <div class="input-group-prepend" style="height: 35px">
+                <span class="input-group-text">Min</span>
+                <input style="width:100px;" type="number" name='range-min' class="form-control" >
+            </div>
+            <div class="input-group-prepend" style="height: 35px">
+                <span class="input-group-text">Max</span>
+                <input style="width:100px;" type="number" name='range-max' class="form-control">
+            </div>
+            <input type="text" name='name' class="form-control" placeholder="Search for Industry" style="height: 35px">
+            <div class="input-group-append" style="height: 35px">
+                <button class="btn btn-secondary" type="submit">
+                <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="container-fluid table-responsive">
+        <table id="data_table" class="table table-striped table-hover table-condensed" style="word-break:keep-all; word-wrap:break-word;">
+        <thead>
+        <tr id="key" >
+            {% for key in labels %}
+            <th scope="col">
+{#                <button type="button" id="header" class="btn btn-primary">#}
+                {{ key }}
+{#                </button>#}
+            </th>
+            {% endfor %}
+         </tr>
+        </thead>
+        <tbody>
+        {% for item in data_lst %}
+        <tr>
+            {% for value in (item.values()) %}
+                <td scope="row">{{ value }}</td>
+            {% endfor %}
+        </tr>
+
+        {% endfor %}
+        </tbody>
+
+        </table>
+    </div>
+
+    <script>
+        window.onload = function() {
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            title: {
+                text: "Industry Vertical Percentage"
+            },
+            data: [{
+                type: "pie",
+                startAngle: 240,
+                yValueFormatString: "##0.000",
+                indexLabel: "{label} - {y}",
+                dataPoints: [
+                            {% for item in industry_vertical_lst %}
+                                {y:{{ item[1]}}, label:"{{ item[0]}}"},
+                             {% endfor %}
+                            ]
+
+            }]
+        });
+        chart.render();
+
+        var chart1 = new CanvasJS.Chart("chartContainer-bar", {
+            animationEnabled: true,
+            title:{
+                text: "Compare of Start Up In Range With Whole"
+            },
+            axisY: {
+                title: "Whole number of start up funded",
+                titleFontColor: "#4F81BC",
+                lineColor: "#4F81BC",
+                labelFontColor: "#4F81BC",
+                tickColor: "#4F81BC",
+                maximum:400
+            },
+            axisY2: {
+                title: "Current number of start up funded",
+                titleFontColor: "#C0504E",
+                lineColor: "#C0504E",
+                labelFontColor: "#C0504E",
+                tickColor: "#C0504E",
+                maximum:400
+            },
+            toolTip: {
+                shared: true
+            },
+            legend: {
+                cursor:"pointer",
+                itemclick: toggleDataSeries
+            },
+            data: [{
+                type: "column",
+                name: "Whole number of start up funded (one)",
+                legendText: "Whole number",
+                showInLegend: true,
+                dataPoints:[
+                    {% for key, value in data_date_dic.items() %}
+                        {label:'{{key}}', y: {{ value}}},
+                    {% endfor %}
+                ]
+            }, {
+                type: "column",
+                name: "Current number of start up funded (one)",
+                legendText: "Current number",
+                axisYType: "secondary",
+                showInLegend: true,
+                dataPoints:[
+                    {% for key, value in temp_date_dic.items() %}
+                        {label:'{{key}}', y: {{ value}}},
+                    {% endfor %}
+                ]
+            }]
+        });
+        chart1.render();
+
+        function toggleDataSeries(e) {
+            if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+            }
+            else {
+                e.dataSeries.visible = true;
+            }
+            chart.render();
+        }
+
+        }
+    </script>
+    <script type="text/javascript" src="../static/tableAction.js"></script>
+    <script type="text/javascript" src="../static/filter.js"></script>
+
+{% endblock %}
+
+</body>
+</html>

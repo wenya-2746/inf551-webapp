@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="../static/tableStyle.css">
+{% block title %}
+      {% if title %}
+      <title>{{ title }} - Inf551 project</title>
+      {% else %}
+      <title>Welcome to Inf551 project</title>
+      {% endif %}
+{% endblock %}
+
+<body>
+        <div class="container-fluid" style="position:relative;top:10px">
+            <h4> Indian Start Up Funding Data</h4>
+            <h7> Ya Wen, Ye Xiao</h7>
+            <br>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">Home</a>
+                </li>
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link"  href="/login">Login</a>#}
+{#                </li>#}
+                <li class="nav-item">
+                    <a class="nav-link" href="/table">Table</a>
+                </li>
+            </ul>
+        </div>
+        {% block content %}
+        <div class="contain" style="position:relative; left:5%; top:50px">
+            <p>
+                Interested in the Indian startup ecosystem?
+            Wanted to know what type of startups are getting funded in the last few years?
+            Wanted to know who are the important investors?
+            Wanted to know the hot fields that get a lot of funding these days?
+            </p>
+            <p>
+                 This application is a chance to explore the Indian startup scene.
+            Deep dive into funding data and derive insights into the future!
+            The data table under the ‘Table’ tab has funding information of the Indian startups from January 2015 to August 2017.
+                It includes columns with the startup name, date funded, the city the startup is based out of, the names of the funders, and the amount invested (in USD). This application allows users to search for startup companies by industry vertical and range of investment money received. It also allows the users to do an additional search to further refine the search result. Users can sort each column of the data table as well. For example, users can rank the Amount column in ascending or descending order based on their needs.
+            </p>
+
+            <div id="tech" style="position: relative; left:17.5%;">
+                <img src="../static/tech_used.png" style="width: 50%;height: 17.5%">
+            </div>
+        </div>
+        {% endblock %}
+</body>
+</html>

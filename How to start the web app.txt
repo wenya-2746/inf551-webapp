@@ -1,0 +1,7 @@
+To start the program:
+
+cd Your Download Path/inf551project
+flask run
+
+
+The app will be on http://127.0.0.1:5000/

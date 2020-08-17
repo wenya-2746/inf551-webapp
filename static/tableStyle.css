@@ -1,0 +1,30 @@
+table{
+    width: 60%;
+    text-align: center;
+    font-size: small;
+}
+
+
+
+.contain p {
+    font: 80%/1.6 Verdana, Geneva, Arial, Helvetica, sans-serif;
+    float:left;
+    text-align: justify;
+    width: 80%;
+
+}
+.contain p:first-letter {
+    font-size: 2em;
+    padding: 0.3em;
+    float: left;
+    clear: left;
+}
+.contain p:first-line {
+    color: black;
+}
+.contain p:first-child:first-letter {
+    color: black;
+}
+.contain p:first-child:first-line {
+    color: inherit;
+}
